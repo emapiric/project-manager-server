@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import projectmanager.domain.ProjectTask;
 import projectmanager.domain.User;
 import projectmanager.repository.db.DBConnectionFactory;
 import projectmanager.repository.db.DBRepository;
@@ -90,5 +91,11 @@ public class DBRepositoryUser implements DBRepository<User>{
     public void edit(User param) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<User> getAll(Object param) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

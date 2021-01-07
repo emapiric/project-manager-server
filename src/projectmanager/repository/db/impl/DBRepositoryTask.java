@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import projectmanager.domain.ProjectTask;
 import projectmanager.domain.Task;
 import projectmanager.repository.db.DBConnectionFactory;
 import projectmanager.repository.db.DBRepository;
@@ -81,5 +82,11 @@ public class DBRepositoryTask implements DBRepository<Task>{
             throw new Exception("Task doesn't exist");
         }
     }
+
+    @Override
+    public List<Task> getAll(Object param) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

@@ -43,6 +43,7 @@ public class Controller {
     
     public User login(String username, String password) throws Exception {
         List<User> users = repositoryUser.getAll();
+        System.out.println(users);
         for (User user: users) {
             if (user.getUsername().equals(username)&&user.getPassword().equals(password)) {
                 return user;
@@ -132,11 +133,11 @@ public class Controller {
     }
 
 
-    public List<ProjectTask> getAllProjectTasks() throws Exception{
+    public List<ProjectTask> getAllProjectTasks(Project project) throws Exception{
         List<ProjectTask> projectTasks=null;
         ((DBRepository)repositoryProjectTask).connect();
         try{
-            projectTasks = repositoryProjectTask.getAll();
+            projectTasks = repositoryProjectTask.getAll(project);
             ((DBRepository)repositoryProjectTask).commit();
         }catch(Exception e){
             e.printStackTrace();

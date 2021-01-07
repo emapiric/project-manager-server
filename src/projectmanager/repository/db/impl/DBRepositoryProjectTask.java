@@ -27,8 +27,9 @@ import projectmanager.repository.db.DBRepository;
  */
 public class DBRepositoryProjectTask implements DBRepository<ProjectTask>{
 
-    public List<ProjectTask> getAll(Project project) {
+    public List<ProjectTask> getAll(Object param) {
          try {
+            Project project = (Project) param;
             String sql = "SELECT * FROM project_task WHERE projectId=?";
             List<ProjectTask> projectTasks = new ArrayList<>();
             Connection connection = DBConnectionFactory.getInstance().getConnection();
