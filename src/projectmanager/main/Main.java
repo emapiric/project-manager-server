@@ -6,6 +6,7 @@
 package projectmanager.main;
 
 import projectmanager.server.Server;
+import projectmanager.view.coordinator.MainCoordinator;
 
 
 /**
@@ -14,6 +15,7 @@ import projectmanager.server.Server;
  */
 public class Main {
     public static void main(String[] args) {
-        new Server().startServer();
+        MainCoordinator.getInstance().openMainForm();
+        //new Server().startServer();
     }
 }
