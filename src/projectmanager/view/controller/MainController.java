@@ -7,6 +7,8 @@ package projectmanager.view.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import projectmanager.server.Server;
 import projectmanager.view.form.FrmMain;
 
@@ -32,7 +34,7 @@ public class MainController {
         frmMain.AddBtnStartActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                server.startServer();
+                server.start();
             }
         });
         

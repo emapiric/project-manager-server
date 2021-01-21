@@ -5,7 +5,9 @@
  */
 package projectmanager.threads;
 
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import projectmanager.communication.Receiver;
@@ -27,11 +29,13 @@ public class ProcessRequests extends Thread {
     Socket socket;
     Sender sender;
     Receiver receiver;
+    ServerSocket serverSocket;
     
-    public ProcessRequests(Socket socket) {
+    public ProcessRequests(Socket socket, ServerSocket serverSocket) {
         this.socket = socket;
         sender=new Sender(socket);
         receiver=new Receiver(socket);
+        this.serverSocket = serverSocket;
     }
 
     @Override
@@ -46,6 +50,10 @@ public class ProcessRequests extends Thread {
                 Task task;
                 int id;
                 try {
+                if (serverSocket.isClosed()) {
+                    System.out.println("server socket is closed");
+                    throw new SocketException("Server socket closed");
+                }
                     switch (request.getOperation()) {
                         case LOGIN:
                             user = (User) request.getArgument();
