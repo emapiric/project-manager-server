@@ -5,9 +5,10 @@
  */
 package projectmanager.repository.db;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  *
@@ -26,11 +27,13 @@ public class DBConnectionFactory {
         return instance;
     }
     
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() throws Exception {
         if (connection == null || connection.isClosed()) {
-            String url = "jdbc:mysql://localhost:3306/projectmanager";
-            String username = "root";
-            String password = "root";
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("config/dbconfig.properties"));
+            String url = properties.getProperty("url");
+            String username = properties.getProperty("username");
+            String password = properties.getProperty("password");
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
         }
