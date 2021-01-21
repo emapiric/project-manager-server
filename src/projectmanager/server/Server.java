@@ -45,18 +45,6 @@ public class Server extends Thread{
             ex.printStackTrace();
         }
     }
-    
-//     public void startServer() {
-//        try {
-//            serverSocket = new ServerSocket(9000);
-//            System.out.println("Waiting for connection...");
-//            Socket socket = serverSocket.accept();
-//            System.out.println("Connected!");
-//            handleClient(socket);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
      
     public void stopServer() {
         try {

@@ -19,7 +19,7 @@ import projectmanager.view.form.FrmMain;
 public class MainController {
     
     private final FrmMain frmMain;
-    private Server server = new Server();
+    private Server server;
 
     public MainController(FrmMain frmMain) {
         this.frmMain = frmMain;
@@ -34,14 +34,18 @@ public class MainController {
         frmMain.AddBtnStartActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                server.start();
+                if (server == null || (server != null && !server.isAlive())) {
+                    server = new Server();
+                    server.start();
+                }
             }
         });
         
         frmMain.AddBtnStopActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                server.stopServer();
+                if (server != null)
+                    server.stopServer();
             }
         });
     }

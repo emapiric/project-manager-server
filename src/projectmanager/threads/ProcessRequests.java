@@ -30,17 +30,19 @@ public class ProcessRequests extends Thread {
     Sender sender;
     Receiver receiver;
     ServerSocket serverSocket;
+    boolean run;
     
     public ProcessRequests(Socket socket, ServerSocket serverSocket) {
         this.socket = socket;
         sender=new Sender(socket);
         receiver=new Receiver(socket);
         this.serverSocket = serverSocket;
+        this.run = true;
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (run) {
             try {
                 Request request = (Request) receiver.receive();
                 Response response = new Response();
@@ -52,6 +54,7 @@ public class ProcessRequests extends Thread {
                 try {
                 if (serverSocket.isClosed()) {
                     System.out.println("server socket is closed");
+                    run = false;
                     throw new SocketException("Server socket closed");
                 }
                     switch (request.getOperation()) {
@@ -114,6 +117,7 @@ public class ProcessRequests extends Thread {
                 }
                 sender.send(response);
             } catch (Exception ex) {
+                run = false;
                 Logger.getLogger(ProcessRequests.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
