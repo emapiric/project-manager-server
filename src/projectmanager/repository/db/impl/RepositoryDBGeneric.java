@@ -14,10 +14,6 @@ import projectmanager.domain.GenericEntity;
 import projectmanager.repository.db.DBConnectionFactory;
 import projectmanager.repository.db.DBRepository;
 
-/**
- *
- * @author Milos Milic
- */
 public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
 
     @Override
@@ -37,7 +33,7 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
             statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             ResultSet rsKey = statement.getGeneratedKeys();
             if (rsKey.next()) {
-                Long id = rsKey.getLong(1);
+                int id = rsKey.getInt(1);
                 entity.setId(id);
             }
             statement.close();

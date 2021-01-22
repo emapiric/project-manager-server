@@ -16,6 +16,7 @@ import projectmanager.repository.db.impl.DBRepositoryProject;
 import projectmanager.repository.db.impl.DBRepositoryProjectTask;
 import projectmanager.repository.db.impl.DBRepositoryTask;
 import projectmanager.repository.db.impl.DBRepositoryUser;
+import projectmanager.repository.db.impl.RepositoryDBGeneric;
 
 /**
  *
@@ -27,12 +28,14 @@ public class Controller {
     private final Repository<Project> repositoryProject;
     private final Repository<ProjectTask> repositoryProjectTask;
     private final Repository<Task> repositoryTask;
+    private final Repository repositoryGeneric;
 
     public Controller() {
         this.repositoryUser = new DBRepositoryUser();
         this.repositoryProject = new DBRepositoryProject();
         this.repositoryProjectTask = new DBRepositoryProjectTask();
         this.repositoryTask = new DBRepositoryTask();
+        this.repositoryGeneric = new RepositoryDBGeneric();
     }
     
     public static Controller getInstance() {
@@ -91,16 +94,16 @@ public class Controller {
     }
         
     public void addProject(Project project) throws Exception {
-        ((DBRepository)repositoryProject).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            repositoryProject.add(project);
-            ((DBRepository)repositoryProject).commit();
+            repositoryGeneric.add(project);
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProject).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProject).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
     }
         
@@ -151,16 +154,16 @@ public class Controller {
 
 
     public void addProjectTask(ProjectTask projectTask) throws Exception{
-        ((DBRepository)repositoryProjectTask).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
             repositoryProjectTask.add(projectTask);
-            ((DBRepository)repositoryProjectTask).commit();
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProjectTask).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProjectTask).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
     }
 
