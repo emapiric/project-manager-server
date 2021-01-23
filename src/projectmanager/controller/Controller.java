@@ -108,30 +108,30 @@ public class Controller {
     }
         
     public void editProject(Project project) throws Exception {
-        ((DBRepository)repositoryProject).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            ((DBRepository)repositoryProject).edit(project);
-            ((DBRepository)repositoryProject).commit();
+            ((DBRepository)repositoryGeneric).edit(project);
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProject).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProject).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
     }
     
     public void deleteProject(Project project) throws Exception {
-       ((DBRepository)repositoryProject).connect();
+       ((DBRepository)repositoryGeneric).connect();
         try{
-            repositoryProject.delete(project);
-            ((DBRepository)repositoryProject).commit();
+            repositoryGeneric.delete(project);
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProject).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProject).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
     }
 
@@ -156,7 +156,7 @@ public class Controller {
     public void addProjectTask(ProjectTask projectTask) throws Exception{
         ((DBRepository)repositoryGeneric).connect();
         try{
-            repositoryProjectTask.add(projectTask);
+            repositoryGeneric.add(projectTask);
             ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
@@ -168,30 +168,30 @@ public class Controller {
     }
 
     public void editProjectTask(ProjectTask projectTask) throws Exception {
-        ((DBRepository)repositoryProjectTask).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            ((DBRepository)repositoryProjectTask).edit(projectTask);
-            ((DBRepository)repositoryProjectTask).commit();
+            ((DBRepository)repositoryGeneric).edit(projectTask);
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProjectTask).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProjectTask).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
     }
     
     public void deleteProjectTask(ProjectTask projectTask) throws Exception{
-        ((DBRepository)repositoryProjectTask).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            repositoryProjectTask.delete(projectTask);
-            ((DBRepository)repositoryProjectTask).commit();
+            repositoryGeneric.delete(projectTask);
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProjectTask).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProjectTask).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
     }
 
