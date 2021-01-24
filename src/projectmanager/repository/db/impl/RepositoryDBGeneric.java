@@ -208,11 +208,4 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
         }
     }
 
-    @Override
-    public List<GenericEntity> getAll() {
-       return null;
-    }
-
-
-
 }
