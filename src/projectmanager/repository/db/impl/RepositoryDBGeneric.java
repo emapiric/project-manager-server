@@ -10,9 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import projectmanager.domain.GenericEntity;
 import projectmanager.domain.Project;
+import projectmanager.domain.ProjectTask;
 import projectmanager.domain.User;
 import projectmanager.repository.db.DBConnectionFactory;
 import projectmanager.repository.db.DBRepository;
@@ -51,8 +53,36 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
     }
 
     @Override
-    public List<GenericEntity> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<GenericEntity> getAll(GenericEntity entity) throws Exception {
+        try {
+        Connection connection = DBConnectionFactory.getInstance().getConnection();
+        List<GenericEntity> entities = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT * FROM ")
+                    .append(entity.getTableName())
+                    .append(entity.getJoin());
+            if (entity instanceof ProjectTask) {
+                ProjectTask pt = (ProjectTask) entity;
+                sb.append(" WHERE projectId = ").append(pt.getProject().getId());
+            }
+            String query = sb.toString();
+            System.out.println(query);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                GenericEntity e = entity.getNewRecord(rs);
+                if (entity instanceof Project) {
+                    Project project = (Project) e;
+                    project.setAssignees(getAllAssignees(project));
+                }
+                entities.add(e);
+            }
+            rs.close();
+            statement.close();
+            return entities;
+         } catch (SQLException ex) {
+            throw ex;
+        }
     }
 
     @Override
@@ -99,14 +129,40 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
     }
 
     @Override
-    public GenericEntity getById(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public GenericEntity getById(GenericEntity entity) throws Exception {
+         try {
+            System.out.println(entity.toString());
+            Connection connection = DBConnectionFactory.getInstance().getConnection();
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT * FROM ")
+                    .append(entity.getTableName())
+                    .append(entity.getJoin())
+                    .append(" WHERE ")
+                    .append(entity.getWhereCondition());
+            String query = sb.toString();
+            System.out.println(query);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            GenericEntity e = null;
+            if (rs.next()) {
+                e = entity.getNewRecord(rs);
+                if (entity instanceof Project) {
+                    Project project = (Project) e;
+                    project.setAssignees(getAllAssignees(project));
+                }
+            }
+            rs.close();
+            statement.close();
+            return e;
+         } catch (SQLException ex) {
+            throw ex;
+        }
     }
 
-    @Override
-    public List<GenericEntity> getAll(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public List<GenericEntity> getAll(Object param) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
     public void addAssignees(Project project){
         System.out.println(project.getAssignees());
@@ -124,5 +180,39 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
             }
         }
     }
+    
+    private List<User> getAllAssignees(Project project) {
+        try {
+            String sql = "SELECT * FROM USER WHERE id IN (SELECT userId FROM user_project WHERE projectId = ?)";
+            List<User> users = new ArrayList<>();
+            Connection connection = DBConnectionFactory.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, project.getId());
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setFirstname(rs.getString("firstname"));
+                user.setLastname(rs.getString("lastname"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                users.add(user);
+            }
+            rs.close();
+            statement.close();
+            return users;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<GenericEntity> getAll() {
+       return null;
+    }
+
+
 
 }

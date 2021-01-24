@@ -6,8 +6,6 @@
 package projectmanager.repository;
 
 import java.util.List;
-import projectmanager.domain.Project;
-import projectmanager.domain.ProjectTask;
 
 /**
  *
@@ -18,6 +16,6 @@ public interface Repository<T> {
     void add(T param) throws Exception;
     void edit(T param) throws Exception;
     void delete(T param)throws Exception;
-    T getById(int id) throws Exception;
-    public List<T> getAll(Object param);
+    T getById(T param) throws Exception;
+    public List<T> getAll(T param) throws Exception;
 }

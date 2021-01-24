@@ -12,10 +12,6 @@ import projectmanager.domain.Task;
 import projectmanager.domain.User;
 import projectmanager.repository.Repository;
 import projectmanager.repository.db.DBRepository;
-import projectmanager.repository.db.impl.DBRepositoryProject;
-import projectmanager.repository.db.impl.DBRepositoryProjectTask;
-import projectmanager.repository.db.impl.DBRepositoryTask;
-import projectmanager.repository.db.impl.DBRepositoryUser;
 import projectmanager.repository.db.impl.RepositoryDBGeneric;
 
 /**
@@ -24,17 +20,9 @@ import projectmanager.repository.db.impl.RepositoryDBGeneric;
  */
 public class Controller {
     private static Controller controller;
-    private final Repository<User> repositoryUser;
-    private final Repository<Project> repositoryProject;
-    private final Repository<ProjectTask> repositoryProjectTask;
-    private final Repository<Task> repositoryTask;
     private final Repository repositoryGeneric;
 
     public Controller() {
-        this.repositoryUser = new DBRepositoryUser();
-        this.repositoryProject = new DBRepositoryProject();
-        this.repositoryProjectTask = new DBRepositoryProjectTask();
-        this.repositoryTask = new DBRepositoryTask();
         this.repositoryGeneric = new RepositoryDBGeneric();
     }
     
@@ -45,7 +33,7 @@ public class Controller {
     }
     
     public User login(String username, String password) throws Exception {
-        List<User> users = repositoryUser.getAll();
+        List<User> users = repositoryGeneric.getAll(new User());
         System.out.println(users);
         for (User user: users) {
             if (user.getUsername().equals(username)&&user.getPassword().equals(password)) {
@@ -57,38 +45,38 @@ public class Controller {
     
     public List<User> getAllUsers() throws Exception{
         List<User> users=null;
-        ((DBRepository)repositoryUser).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            users = repositoryUser.getAll();
-            ((DBRepository)repositoryUser).commit();
+            users = repositoryGeneric.getAll(new User());
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryUser).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryUser).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
         return users;
     }
     
     public User getUserById(int id) throws Exception {
-        User user = repositoryUser.getById(id);
+        User user = (User) repositoryGeneric.getById(new User(id));
         if (user != null) return user;
         throw new Exception("Unknown user");
     }
 
     public List<Project> getAllProjects() throws Exception{
         List<Project> projects=null;
-        ((DBRepository)repositoryProject).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            projects = repositoryProject.getAll();
-            ((DBRepository)repositoryProject).commit();
+            projects = repositoryGeneric.getAll(new Project());
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProject).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProject).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
         return projects;
     }
@@ -138,16 +126,16 @@ public class Controller {
 
     public List<ProjectTask> getAllProjectTasks(Project project) throws Exception{
         List<ProjectTask> projectTasks=null;
-        ((DBRepository)repositoryProjectTask).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            projectTasks = repositoryProjectTask.getAll(project);
-            ((DBRepository)repositoryProjectTask).commit();
+            projectTasks = repositoryGeneric.getAll(new ProjectTask(project));
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProjectTask).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProjectTask).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
         return projectTasks;
     }
@@ -197,22 +185,22 @@ public class Controller {
 
     public List<Task> getAllTasks() throws Exception{
          List<Task> tasks=null;
-        ((DBRepository)repositoryProjectTask).connect();
+        ((DBRepository)repositoryGeneric).connect();
         try{
-            tasks = repositoryTask.getAll();
-            ((DBRepository)repositoryProjectTask).commit();
+            tasks = repositoryGeneric.getAll(new Task());
+            ((DBRepository)repositoryGeneric).commit();
         }catch(Exception e){
             e.printStackTrace();
-            ((DBRepository)repositoryProjectTask).rollback();
+            ((DBRepository)repositoryGeneric).rollback();
             throw e;
         }finally{
-            ((DBRepository)repositoryProjectTask).disconnect();
+            ((DBRepository)repositoryGeneric).disconnect();
         }
         return tasks;
     }
     
     public Task getTaskById(int id) throws Exception{
-        Task task = repositoryTask.getById(id);
+        Task task = (Task) repositoryGeneric.getById(new Task(id));
         if (task != null) return task;
         throw new Exception("Unknown task");
     }
