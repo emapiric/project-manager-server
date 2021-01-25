@@ -10,8 +10,20 @@ import projectmanager.domain.Project;
 import projectmanager.domain.ProjectTask;
 import projectmanager.domain.Task;
 import projectmanager.domain.User;
+import projectmanager.operation.AbstractGenericOperation;
+import projectmanager.operation.project.AddProject;
+import projectmanager.operation.project.DeleteProject;
+import projectmanager.operation.project.EditProject;
+import projectmanager.operation.project.GetAllProjects;
+import projectmanager.operation.projecttask.AddProjectTask;
+import projectmanager.operation.projecttask.DeleteProjectTask;
+import projectmanager.operation.projecttask.EditProjectTask;
+import projectmanager.operation.projecttask.GetAllProjectTasks;
+import projectmanager.operation.task.GetAllTasks;
+import projectmanager.operation.task.GetTaskById;
+import projectmanager.operation.user.GetAllUsers;
+import projectmanager.operation.user.GetUserById;
 import projectmanager.repository.Repository;
-import projectmanager.repository.db.DBRepository;
 import projectmanager.repository.db.impl.RepositoryDBGeneric;
 
 /**
@@ -33,7 +45,7 @@ public class Controller {
     }
     
     public User login(String username, String password) throws Exception {
-        List<User> users = repositoryGeneric.getAll(new User());
+        List<User> users = getAllUsers();
         System.out.println(users);
         for (User user: users) {
             if (user.getUsername().equals(username)&&user.getPassword().equals(password)) {
@@ -44,165 +56,71 @@ public class Controller {
     }
     
     public List<User> getAllUsers() throws Exception{
-        List<User> users=null;
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            users = repositoryGeneric.getAll(new User());
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
-        return users;
+        AbstractGenericOperation operation = new GetAllUsers();
+        operation.execute(new User());
+        return ((GetAllUsers)operation).getUsers();
     }
     
     public User getUserById(int id) throws Exception {
-        User user = (User) repositoryGeneric.getById(new User(id));
-        if (user != null) return user;
-        throw new Exception("Unknown user");
+        AbstractGenericOperation operation = new GetUserById();
+        operation.execute(new User());
+        return ((GetUserById)operation).getUser();
     }
 
     public List<Project> getAllProjects() throws Exception{
-        List<Project> projects=null;
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            projects = repositoryGeneric.getAll(new Project());
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
-        return projects;
+        AbstractGenericOperation operation = new GetAllProjects();
+        operation.execute(new Project());
+        return ((GetAllProjects)operation).getProjects();
     }
         
     public void addProject(Project project) throws Exception {
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            repositoryGeneric.add(project);
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
+        AbstractGenericOperation operation = new AddProject();
+        operation.execute(project);
     }
         
     public void editProject(Project project) throws Exception {
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            ((DBRepository)repositoryGeneric).edit(project);
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
+        AbstractGenericOperation operation = new EditProject();
+        operation.execute(project);
     }
     
     public void deleteProject(Project project) throws Exception {
-       ((DBRepository)repositoryGeneric).connect();
-        try{
-            repositoryGeneric.delete(project);
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
+       AbstractGenericOperation operation = new DeleteProject();
+        operation.execute(project);
     }
 
 
     public List<ProjectTask> getAllProjectTasks(Project project) throws Exception{
-        List<ProjectTask> projectTasks=null;
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            projectTasks = repositoryGeneric.getAll(new ProjectTask(project));
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
-        return projectTasks;
+        AbstractGenericOperation operation = new GetAllProjectTasks();
+        operation.execute(new ProjectTask(project));
+        return ((GetAllProjectTasks)operation).getProjectTasks();
     }
 
 
     public void addProjectTask(ProjectTask projectTask) throws Exception{
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            repositoryGeneric.add(projectTask);
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
+        AbstractGenericOperation operation = new AddProjectTask();
+        operation.execute(projectTask);
     }
 
     public void editProjectTask(ProjectTask projectTask) throws Exception {
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            ((DBRepository)repositoryGeneric).edit(projectTask);
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
+        AbstractGenericOperation operation = new EditProjectTask();
+        operation.execute(projectTask);
     }
     
     public void deleteProjectTask(ProjectTask projectTask) throws Exception{
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            repositoryGeneric.delete(projectTask);
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
+        AbstractGenericOperation operation = new DeleteProjectTask();
+        operation.execute(projectTask);
     }
 
     public List<Task> getAllTasks() throws Exception{
-         List<Task> tasks=null;
-        ((DBRepository)repositoryGeneric).connect();
-        try{
-            tasks = repositoryGeneric.getAll(new Task());
-            ((DBRepository)repositoryGeneric).commit();
-        }catch(Exception e){
-            e.printStackTrace();
-            ((DBRepository)repositoryGeneric).rollback();
-            throw e;
-        }finally{
-            ((DBRepository)repositoryGeneric).disconnect();
-        }
-        return tasks;
+        AbstractGenericOperation operation = new GetAllTasks();
+        operation.execute(new Task());
+        return ((GetAllTasks)operation).getTasks();
     }
     
     public Task getTaskById(int id) throws Exception{
-        Task task = (Task) repositoryGeneric.getById(new Task(id));
-        if (task != null) return task;
-        throw new Exception("Unknown task");
+        AbstractGenericOperation operation = new GetTaskById();
+        operation.execute(new Task(id));
+        return ((GetTaskById)operation).getTask();
     }
     
 }
