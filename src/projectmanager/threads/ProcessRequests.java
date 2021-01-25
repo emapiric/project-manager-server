@@ -110,6 +110,10 @@ public class ProcessRequests extends Thread {
                             id = (int) request.getArgument();
                             response.setResult(Controller.getInstance().getTaskById(id));
                             break;
+                        case GET_PROJECT_TASK_BY_ID:
+                            projectTask = (ProjectTask) request.getArgument();
+                            response.setResult(Controller.getInstance().getProjectTaskById(projectTask));
+                            break;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

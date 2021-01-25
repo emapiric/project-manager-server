@@ -63,7 +63,7 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
                     .append(entity.getJoin());
             if (entity instanceof ProjectTask) {
                 ProjectTask pt = (ProjectTask) entity;
-                sb.append(" WHERE projectId = ").append(pt.getProject().getId());
+                sb.append(" WHERE projectId=").append(pt.getProject().getId());
             }
             String query = sb.toString();
             System.out.println(query);
@@ -131,14 +131,14 @@ public class RepositoryDBGeneric implements DBRepository<GenericEntity> {
     @Override
     public GenericEntity getById(GenericEntity entity) throws Exception {
          try {
-            System.out.println(entity.toString());
+            System.out.println(entity.getWhereCondition());
             Connection connection = DBConnectionFactory.getInstance().getConnection();
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT * FROM ")
                     .append(entity.getTableName())
                     .append(entity.getJoin())
                     .append(" WHERE ")
-                    .append(entity.getWhereCondition());
+                    .append(entity.getWhereCondition());   
             String query = sb.toString();
             System.out.println(query);
             Statement statement = connection.createStatement();

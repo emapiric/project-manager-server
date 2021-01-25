@@ -19,6 +19,7 @@ import projectmanager.operation.projecttask.AddProjectTask;
 import projectmanager.operation.projecttask.DeleteProjectTask;
 import projectmanager.operation.projecttask.EditProjectTask;
 import projectmanager.operation.projecttask.GetAllProjectTasks;
+import projectmanager.operation.projecttask.GetProjectTaskById;
 import projectmanager.operation.task.GetAllTasks;
 import projectmanager.operation.task.GetTaskById;
 import projectmanager.operation.user.GetAllUsers;
@@ -121,6 +122,12 @@ public class Controller {
         AbstractGenericOperation operation = new GetTaskById();
         operation.execute(new Task(id));
         return ((GetTaskById)operation).getTask();
+    }
+    
+    public ProjectTask getProjectTaskById(ProjectTask projectTask) throws Exception{
+        AbstractGenericOperation operation = new GetProjectTaskById();
+        operation.execute(projectTask);
+        return ((GetProjectTaskById)operation).getProjectTask();
     }
     
 }
