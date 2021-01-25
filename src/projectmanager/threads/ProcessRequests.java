@@ -65,10 +65,6 @@ public class ProcessRequests extends Thread {
                         case GET_ALL_USERS:
                             response.setResult(Controller.getInstance().getAllUsers());
                             break;
-                        case GET_USER_BY_ID:
-                            id = (int) request.getArgument();
-                            response.setResult(Controller.getInstance().getUserById(id));
-                            break;
                         case GET_ALL_PROJECTS:
                             response.setResult(Controller.getInstance().getAllProjects());
                             break;
@@ -105,10 +101,6 @@ public class ProcessRequests extends Thread {
                             break;
                         case GET_ALL_TASKS:
                             response.setResult(Controller.getInstance().getAllTasks());
-                            break;
-                        case GET_TASK_BY_ID:
-                            id = (int) request.getArgument();
-                            response.setResult(Controller.getInstance().getTaskById(id));
                             break;
                         case GET_PROJECT_TASK_BY_ID:
                             projectTask = (ProjectTask) request.getArgument();

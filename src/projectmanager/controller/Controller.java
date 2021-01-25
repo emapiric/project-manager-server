@@ -21,9 +21,7 @@ import projectmanager.operation.projecttask.EditProjectTask;
 import projectmanager.operation.projecttask.GetAllProjectTasks;
 import projectmanager.operation.projecttask.GetProjectTaskById;
 import projectmanager.operation.task.GetAllTasks;
-import projectmanager.operation.task.GetTaskById;
 import projectmanager.operation.user.GetAllUsers;
-import projectmanager.operation.user.GetUserById;
 import projectmanager.repository.Repository;
 import projectmanager.repository.db.impl.RepositoryDBGeneric;
 
@@ -60,12 +58,6 @@ public class Controller {
         AbstractGenericOperation operation = new GetAllUsers();
         operation.execute(new User());
         return ((GetAllUsers)operation).getUsers();
-    }
-    
-    public User getUserById(int id) throws Exception {
-        AbstractGenericOperation operation = new GetUserById();
-        operation.execute(new User());
-        return ((GetUserById)operation).getUser();
     }
 
     public List<Project> getAllProjects() throws Exception{
@@ -116,12 +108,6 @@ public class Controller {
         AbstractGenericOperation operation = new GetAllTasks();
         operation.execute(new Task());
         return ((GetAllTasks)operation).getTasks();
-    }
-    
-    public Task getTaskById(int id) throws Exception{
-        AbstractGenericOperation operation = new GetTaskById();
-        operation.execute(new Task(id));
-        return ((GetTaskById)operation).getTask();
     }
     
     public ProjectTask getProjectTaskById(ProjectTask projectTask) throws Exception{
