@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import projectmanager.server.Server;
+import projectmanager.view.coordinator.MainCoordinator;
 import projectmanager.view.form.FrmMain;
 
 /**
@@ -48,6 +49,16 @@ public class MainController {
                     server.stopServer();
             }
         });
+        frmMain.AddJmiSettingsActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainCoordinator.getInstance().openSettingsForm();
+            }
+        });
+    }
+
+    public FrmMain getFrmMain() {
+        return frmMain;
     }
     
 }

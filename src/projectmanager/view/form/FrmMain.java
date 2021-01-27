@@ -112,7 +112,6 @@ public class FrmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmiSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSettingsActionPerformed
-        new FrmSettings(this, true).setVisible(true);
     }//GEN-LAST:event_jmiSettingsActionPerformed
 
     /**
@@ -164,6 +163,10 @@ public class FrmMain extends javax.swing.JFrame {
     
     public void AddBtnStopActionListener(ActionListener actionListener) {
         btnStop.addActionListener(actionListener);
+    }
+    
+    public void AddJmiSettingsActionListener(ActionListener actionListener) {
+        jmiSettings.addActionListener(actionListener);
     }
 
 

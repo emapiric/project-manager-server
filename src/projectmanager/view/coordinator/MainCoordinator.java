@@ -8,7 +8,9 @@ package projectmanager.view.coordinator;
 import java.util.HashMap;
 import java.util.Map;
 import projectmanager.view.controller.MainController;
+import projectmanager.view.controller.SettingsController;
 import projectmanager.view.form.FrmMain;
+import projectmanager.view.form.FrmSettings;
 
 /**
  *
@@ -32,5 +34,10 @@ public class MainCoordinator {
     }
      public void openMainForm() {
         mainController.openForm();
+    }
+     
+    public void openSettingsForm() {
+       SettingsController settingsController = new SettingsController( new FrmSettings(mainController.getFrmMain(), true));
+       settingsController.openForm();
     }
 }
