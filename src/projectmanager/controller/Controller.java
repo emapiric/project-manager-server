@@ -22,8 +22,6 @@ import projectmanager.operation.projecttask.GetAllProjectTasks;
 import projectmanager.operation.projecttask.GetProjectTaskById;
 import projectmanager.operation.task.GetAllTasks;
 import projectmanager.operation.user.GetAllUsers;
-import projectmanager.repository.Repository;
-import projectmanager.repository.db.impl.RepositoryDBGeneric;
 
 /**
  *
@@ -31,10 +29,8 @@ import projectmanager.repository.db.impl.RepositoryDBGeneric;
  */
 public class Controller {
     private static Controller controller;
-    private final Repository repositoryGeneric;
 
     public Controller() {
-        this.repositoryGeneric = new RepositoryDBGeneric();
     }
     
     public static Controller getInstance() {

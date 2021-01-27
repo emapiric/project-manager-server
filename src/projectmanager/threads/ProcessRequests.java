@@ -107,7 +107,6 @@ public class ProcessRequests extends Thread {
                             response.setResult(Controller.getInstance().getProjectTaskById(projectTask));
                             break;
                         case LOGOUT:
-                            run = false;
                             response.setResult("You have logged out");
                             break;
                     }
